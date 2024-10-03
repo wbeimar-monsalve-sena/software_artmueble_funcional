@@ -1,0 +1,13 @@
+servlets\RegistrarVentaServlet.class
+servlets\EliminarProductoServlet.class
+DB\ConexionDB.class
+com\mycompany\softwareartmueble\JakartaRestConfiguration.class
+servlets\ServletRegistroUsuario.class
+servlets\ServletUsuarios.class
+servlets\ActualizarProductoServlet.class
+servlets\BuscarInventarioServlet.class
+servlets\RegistroProductoServlet.class
+com\mycompany\softwareartmueble\resources\JakartaEE10Resource.class
+servlets\GestionarClienteServlet.class
+servlets\RegistrarProyectoServlet.class
+servlets\RegistroClienteServlet.class
