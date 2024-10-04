@@ -166,7 +166,7 @@
         <div class="spacer"></div> <!-- Espaciador entre contenedores -->
 
         <div id="container3"> <!-- Contenedor para los botones de reintento -->
-            <a href="inicio_sesion.jsp" class="centered-button">Volver a Usuarios</a>
+            <a href="usuarios.jsp" class="centered-button">Volver a Usuarios</a>
             <a href="registro_usuario.jsp" class="centered-button">Registro de Usuario</a>
         </div>
     </div>

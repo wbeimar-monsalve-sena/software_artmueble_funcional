@@ -14,108 +14,110 @@
     <title>Bienvenida ArtMueble</title>
     <style>
         body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
 
-.background-logo {
-    background-image: url(imagenes/logo-ArtMueble-1.jpeg);
-    background-size: cover;
-    background-position: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    opacity: 0.9;
-    /* Ajusta la opacidad según sea necesario */
-}
+        .background-logo {
+            background-image: url(imagenes/logo-ArtMueble-1.jpeg);
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.9;
+        }
 
-.content {
-    z-index: 1;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+        .content {
+            z-index: 1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-.container1 {
-    background-color: rgba(15, 64, 245, 0.8);
-    width: 100%;
-    height: 125px;
-    text-align: center;
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+        .container1 {
+            background-color: rgba(15, 64, 245, 0.8);
+            width: 100%;
+            height: 125px;
+            text-align: center;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-.container1 p {
-    padding: 20px;
-    color: rgba(255, 255, 255, 1);
-}
+        .container1 p {
+            padding: 20px;
+            color: rgba(255, 255, 255, 1);
+        }
 
-.container1 .inner-container {
-    text-align: center;
-    color: rgba(255, 255, 255, 1);
-}
+        .container1 .inner-container {
+            text-align: center;
+            color: rgba(255, 255, 255, 1);
+        }
 
-.container1 nav ul {
-    list-style-type: none;
-}
+        .container2 {
+            background-color: rgba(0, 199, 255, 0.8);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            height: 125px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            font-size: 18px;
+        }
 
-.container1 nav ul li a {
-    color: rgba(255, 255, 255, 1);
-}
+        .container3 {
+            background-color: rgba(15, 64, 245, 0.8);
+            color: rgba(0, 199, 255, 1);
+            padding: 10px 20px;
+            cursor: pointer;
+            position: relative;
+            height: 125px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
 
-.container2 {
-    background-color: rgba(0, 199, 255, 0.8);
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    position: relative;
-    height: 125px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    font-size: 18px;
-    /* Ajusta el tamaño de la letra */
-}
+        .container3 button {
+            background-color: rgba(0, 199, 255, 1);
+            color: rgba(255, 255, 255, 1);
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            width: 200px;
+            height: 50px;
+        }
 
-.container3 {
-    background-color: rgba(15, 64, 245, 0.8);
-    color: rgba(0, 199, 255, 1);
-    padding: 10px 20px;
-    cursor: pointer;
-    position: relative;
-    height: 125px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
-.container3 button {
-    background-color: rgba(0, 199, 255, 1);
-    color: rgba(255, 255, 255, 1);
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
-    width: 200px;
-    height: 50px;
-}
+        /* Estilo para el mensaje de éxito */
+        .success-message {
+            background-color: #28a745;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 18px;
+            text-align: center;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -128,6 +130,18 @@
                 <h1>Bienvenidos a ArtMueble</h1>
             </div>
         </div>
+
+        <!-- Verificar si hay un mensaje de éxito y mostrarlo -->
+        <%
+            String mensaje = (String) request.getAttribute("mensaje");
+            if (mensaje != null) {
+        %>
+        <div class="success-message">
+            <%= mensaje %>
+        </div>
+        <%
+            }
+        %>
 
         <div class="container2">
             <p>Nuestra herramienta integral amplifica la gestión de fabricación y restauración de muebles. Optimiza procesos, aumenta la productividad y ofrece un servicio de calidad. ArtMueble se adapta a tus necesidades. Explora nuestras funciones y lleva

@@ -1,4 +1,4 @@
-package servlets; 
+package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -40,9 +40,8 @@ public class RegistroProductoServlet extends HttpServlet {
         try {
             precio = Double.parseDouble(precioStr);
         } catch (NumberFormatException e) {
-            response.setContentType("text/html");
-            PrintWriter out = response.getWriter();
-            out.println("<html><body><h3>Error: Precio inválido.</h3></body></html>");
+            request.setAttribute("mensaje", "Error: Precio inválido.");
+            request.getRequestDispatcher("registro_productos.jsp").forward(request, response);
             return;
         }
 
@@ -61,25 +60,22 @@ public class RegistroProductoServlet extends HttpServlet {
             // Ejecutar la inserción
             int filasInsertadas = statement.executeUpdate();
 
-            // Configurar el tipo de contenido para la respuesta
-            response.setContentType("text/html");
-            PrintWriter out = response.getWriter();
-
-            // Verificar si la inserción fue exitosa
-            if (filasInsertadas > 0) {
-                out.println("<html><body><h3>¡Registro exitoso!</h3></body></html>");
-            } else {
-                out.println("<html><body><h3>Error al registrar el producto</h3></body></html>");
-            }
-
             // Cerrar la conexión
             statement.close();
             connection.close();
+
+            // Configurar el mensaje de éxito
+            if (filasInsertadas > 0) {
+                request.setAttribute("mensaje", "¡Registro exitoso!");
+            } else {
+                request.setAttribute("mensaje", "Error al registrar el producto.");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            response.setContentType("text/html");
-            PrintWriter out = response.getWriter();
-            out.println("<html><body><h3>Error al registrar el producto: " + e.getMessage() + "</h3></body></html>");
+            request.setAttribute("mensaje", "Error al registrar el producto: " + e.getMessage());
         }
+        
+        // Redirigir a la página de registro de productos
+        request.getRequestDispatcher("registro_productos.jsp").forward(request, response);
     }
 }

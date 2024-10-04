@@ -62,7 +62,8 @@
         .finance-options {
             width: 100%;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column; /* Cambiado a columna */
+            align-items: center; /* Centrar los botones */
             margin-bottom: 20px;
         }
 
@@ -77,8 +78,9 @@
             font-size: 16px;
             transition: background-color 0.3s;
             text-align: center;
-            display: inline-block;
-            width: 30%; /* Botones más anchos, ajustados al 48% para margen entre ellos */
+            display: block; /* Cambiado a block para que ocupen el ancho completo */
+            width: 80%; /* Ajustar el ancho de los botones */
+            margin: 10px 0; /* Espacio vertical entre los botones */
         }
 
         .finance-options .btn-finance:hover {
@@ -94,7 +96,6 @@
         .finance-table {
             width: 100%;
             border-collapse: collapse;
-            
         }
 
         .finance-table th,
@@ -155,30 +156,7 @@
         </div>
 
         <div class="finance-table-container">
-            <!-- Aquí se mostrarán los registros de ingresos y egresos -->
-            <table class="finance-table">
-                <thead>
-                    <tr>
-                        <th>Tipo</th>
-                        <th>Descripción</th>
-                        <th>Monto</th>
-                        <th>Fecha</th>
-                        <!-- Agrega más columnas según sea necesario -->
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Aquí se iterará sobre los datos de ingresos y egresos -->
-                    <c:forEach var="transaccion" items="${listaTransacciones}">
-                        <tr>
-                            <td>${transaccion.tipo}</td>
-                            <td>${transaccion.descripcion}</td>
-                            <td>${transaccion.monto}</td>
-                            <td>${transaccion.fecha}</td>
-                            <!-- Agrega más celdas según sea necesario -->
-                        </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+            <!-- Aquí puedes agregar la tabla de finanzas si es necesario -->
         </div>
     </div>
     <div class="btn-login-container">

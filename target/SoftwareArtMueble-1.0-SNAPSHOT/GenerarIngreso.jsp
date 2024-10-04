@@ -141,9 +141,20 @@
             </div>
             <button type="submit" class="btn-submit">Registrar Ingreso</button>
         </form>
-        <!-- Asegúrate de que la página finanzas.jsp esté en la ruta correcta -->
+        <!-- Contenedor para mostrar mensajes -->
+        <div id="mensaje" style="color: black; font-weight: bold;"></div>
         <button class="btn-back" onclick="location.href='finanzas.jsp'">Volver a Finanzas</button>
     </div>
+
+    <%
+        String mensaje = (String) request.getAttribute("mensaje");
+        if (mensaje != null) {
+    %>
+        <script>
+            document.getElementById("mensaje").innerText = "<%= mensaje %>";
+        </script>
+    <%
+        }
+    %>
 </body>
 </html>
-

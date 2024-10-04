@@ -88,8 +88,8 @@
     <div class="spacer"></div>
 
     <div class="button-container">
-        <a href="consulta_inventario.jsp" class="button-link">Consulta de Inventario</a>
-        <a href="editar_inventario.jsp" class="button-link">Editar Inventario</a>
+        <a href="buscar_inventario.jsp" class="button-link">Busca en Inventario</a>
+        
         <a href="artmueble.jsp" class="button-link button-login">ArtMueble</a>
     </div>
 

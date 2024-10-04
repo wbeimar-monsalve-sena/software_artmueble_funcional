@@ -103,6 +103,18 @@
         <h1>Registro de Productos</h1>
     </div>
     <div class="form-container">
+        <!-- Mensaje de registro -->
+        <%
+            String mensaje = (String) request.getAttribute("mensaje");
+            if (mensaje != null) {
+        %>
+            <div style="background-color: #28a745; color: white; padding: 10px; border-radius: 5px; margin-bottom: 20px; text-align: center;">
+                <%= mensaje %>
+            </div>
+        <%
+            }
+        %>
+        
         <form action="RegistroProductoServlet" method="POST">
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required>
@@ -122,4 +134,3 @@
     </div>
 </body>
 </html>
-

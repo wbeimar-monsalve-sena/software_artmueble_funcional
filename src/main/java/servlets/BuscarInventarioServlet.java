@@ -18,80 +18,76 @@ import DB.ConexionDB;
 
 @WebServlet("/BuscarInventarioServlet")
 public class BuscarInventarioServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
 
     @Override
-    public void init() throws ServletException {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new ServletException("No se pudo cargar el driver JDBC", e);
-        }
-    }
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String nombreProducto = request.getParameter("nombreProducto");
         String categoria = request.getParameter("categoria");
 
         List<String[]> productos = new ArrayList<>();
+        String error = null;
         boolean busquedaRealizada = false;
 
-        try (Connection conn = ConexionDB.getConnection()) {
-            if (nombreProducto != null && !nombreProducto.isEmpty()) {
-                productos = buscarPorNombre(conn, nombreProducto);
-                busquedaRealizada = true;
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            // Usar la conexión de tu clase ConexionDB
+            conn = ConexionDB.getConnection();
+
+            StringBuilder query = new StringBuilder("SELECT id, nombre, descripcion, precio, categoria FROM productos WHERE 1=1");
+
+            if (nombreProducto != null && !nombreProducto.trim().isEmpty()) {
+                query.append(" AND nombre LIKE ?");
             }
-            if (categoria != null && !categoria.isEmpty()) {
-                productos = buscarPorCategoria(conn, categoria);
-                busquedaRealizada = true;
-            }
-            if (productos.isEmpty()) {
-                productos = listarTodoInventario(conn);
-                busquedaRealizada = true;
+            if (categoria != null && !categoria.trim().isEmpty()) {
+                query.append(" AND categoria LIKE ?");
             }
 
-            request.setAttribute("productos", productos);
-            request.setAttribute("busquedaRealizada", busquedaRealizada);
-            request.getRequestDispatcher("consulta_inventario.jsp").forward(request, response);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            request.setAttribute("error", "Ocurrió un error al realizar la búsqueda.");
-            request.getRequestDispatcher("consulta_inventario.jsp").forward(request, response);
-        }
-    }
+            System.out.println("Consulta SQL: " + query.toString()); // Impresión para depuración
 
-    private List<String[]> listarTodoInventario(Connection conn) throws SQLException {
-        String query = "SELECT i.id, p.nombre AS nombre_producto, i.cantidad, p.categoria FROM inventario i JOIN productos p ON i.producto_id = p.id";
-        return ejecutarConsulta(conn, query, null);
-    }
+            stmt = conn.prepareStatement(query.toString());
 
-    private List<String[]> buscarPorNombre(Connection conn, String nombreProducto) throws SQLException {
-        String query = "SELECT i.id, p.nombre AS nombre_producto, i.cantidad, p.categoria FROM inventario i JOIN productos p ON i.producto_id = p.id WHERE p.nombre LIKE ?";
-        return ejecutarConsulta(conn, query, "%" + nombreProducto + "%");
-    }
-
-    private List<String[]> buscarPorCategoria(Connection conn, String categoria) throws SQLException {
-        String query = "SELECT i.id, p.nombre AS nombre_producto, i.cantidad, p.categoria FROM inventario i JOIN productos p ON i.producto_id = p.id WHERE p.categoria = ?";
-        return ejecutarConsulta(conn, query, categoria);
-    }
-
-    private List<String[]> ejecutarConsulta(Connection conn, String query, String parametro) throws SQLException {
-        List<String[]> productos = new ArrayList<>();
-        try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            if (parametro != null) {
-                stmt.setString(1, parametro);
+            int paramIndex = 1;
+            if (nombreProducto != null && !nombreProducto.trim().isEmpty()) {
+                stmt.setString(paramIndex++, "%" + nombreProducto + "%");
             }
-            try (ResultSet rs = stmt.executeQuery()) {
+            if (categoria != null && !categoria.trim().isEmpty()) {
+                stmt.setString(paramIndex++, "%" + categoria + "%");
+            }
+
+            rs = stmt.executeQuery();
+
+            if (!rs.isBeforeFirst()) {
+                System.out.println("No se encontraron productos.");
+            } else {
                 while (rs.next()) {
-                    String[] producto = new String[4];
+                    System.out.println("Producto encontrado: " + rs.getString("nombre")); // Impresión para depuración
+                    String[] producto = new String[5];
                     producto[0] = String.valueOf(rs.getInt("id"));
-                    producto[1] = rs.getString("nombre_producto");
-                    producto[2] = String.valueOf(rs.getInt("cantidad"));
-                    producto[3] = rs.getString("categoria");
+                    producto[1] = rs.getString("nombre");
+                    producto[2] = rs.getString("descripcion");
+                    producto[3] = String.valueOf(rs.getDouble("precio"));
+                    producto[4] = rs.getString("categoria");
                     productos.add(producto);
                 }
             }
+
+            busquedaRealizada = true;
+        } catch (SQLException e) {
+            error = "Error al buscar productos: " + e.getMessage();
+        } finally {
+            // Cerrar ResultSet, PreparedStatement y la conexión de forma segura
+            try { if (rs != null) rs.close(); } catch (SQLException ignored) {}
+            try { if (stmt != null) stmt.close(); } catch (SQLException ignored) {}
+            try { if (conn != null) conn.close(); } catch (SQLException ignored) {}
         }
-        return productos;
+
+        // Enviar los datos a la JSP
+        request.setAttribute("productos", productos);
+        request.setAttribute("error", error);
+        request.setAttribute("busquedaRealizada", busquedaRealizada);
+        request.getRequestDispatcher("buscar_inventario.jsp").forward(request, response);
     }
 }

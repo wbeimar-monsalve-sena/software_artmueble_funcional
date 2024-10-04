@@ -137,10 +137,10 @@
 <body>
     <div class="header-container">
         <img src="imagenes/logo-Art.jpg" alt="Logo ArtMueble"/>
-        <h1>Reportes</h1>
+        <h1>Generar Reporte</h1>
     </div>
     <div class="report-container">
-        <form action="GenerarReporteServlet" method="GET" class="filter-form">
+        <form action="GenerarReporteServlet" method="POST" class="filter-form">
             <label for="fechaInicio">Fecha de Inicio:</label>
             <input type="date" id="fechaInicio" name="fechaInicio" required>
 
@@ -148,13 +148,17 @@
             <input type="date" id="fechaFin" name="fechaFin" required>
 
             <label for="categoria">Categoría:</label>
-            <select id="categoria" name="categoria">
-                <option value="todos">Todos</option>
-                <option value="producto">Producto</option>
-                <option value="cliente">Cliente</option>
-                <option value="inventario">Inventario</option>
-                <option value="ventas">Ventas</option>
-                <option value="proyectos">Proyectos</option>
+            <select id="categoria" name="categoria" required>
+                <option value="Ventas">Ventas</option>
+                <option value="Clientes">Clientes</option>
+                <option value="Inventario">Inventario</option>
+                <option value="Productos">Productos</option>
+            </select>
+
+            <label for="formato">Formato de Reporte:</label>
+            <select id="formato" name="formato" required>
+                <option value="excel">Excel</option>
+                <option value="pdf">PDF</option>
             </select>
 
             <button type="submit" class="btn-generate">Generar Reporte</button>
@@ -169,6 +173,6 @@
             </div>
         </div>
     </div>
-    <a href="artmueble.jsp" class="btn-login">ArtMueble</a>
+    <a href="artmueble.jsp" class="btn-login">Volver a ArtMueble</a>
 </body>
 </html>

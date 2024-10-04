@@ -76,7 +76,7 @@
 
         .form-group input,
         .form-group textarea {
-            width: 200%; /* Ajusta el ancho de los inputs y textarea al 60% */
+            width: 200%; /* Ajusta el ancho de los inputs y textarea al 200% */
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
@@ -126,6 +126,13 @@
         <h1>Generar Egreso</h1>
     </div>
     <div class="content-container">
+        <!-- Mostrar mensaje de éxito si existe -->
+        <%
+            String mensaje = (String) request.getAttribute("mensaje");
+            if (mensaje != null) {
+                out.println("<h2 style='color: black;'>" + mensaje + "</h2>");
+            }
+        %>
         <form action="RegistrarEgresoServlet" method="POST">
             <div class="form-group">
                 <label for="descripcion">Descripción:</label>

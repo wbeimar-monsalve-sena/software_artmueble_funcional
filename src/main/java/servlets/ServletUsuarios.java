@@ -47,8 +47,10 @@ public class ServletUsuarios extends HttpServlet {
 
             // Verificar si se encontró el usuario
             if (resultSet.next()) {
-                // Si las credenciales son correctas, redirigir a bienvenida.jsp
-                response.sendRedirect("bienvenida.jsp");
+                // Si las credenciales son correctas, redirigir a bienvenida.jsp con un mensaje de éxito
+                request.setAttribute("mensaje", "Ingreso exitoso");
+                request.getRequestDispatcher("bienvenida.jsp").forward(request, response);
+
             } else {
                 // Si las credenciales son incorrectas, redirigir a error.jsp
                 response.sendRedirect("error.jsp");
